@@ -1,0 +1,72 @@
+import { z } from "zod";
+
+export const gapSchema = z.object({
+  type: z.enum([
+    "missing_role",
+    "unclear_decision",
+    "missing_exception_handling",
+    "vague_timing",
+    "ambiguous_handoff",
+    "missing_input_output",
+  ]),
+  description: z.string(),
+  severity: z.enum(["high", "medium", "low"]),
+  transcript_excerpt: z.string(),
+});
+
+export const gapAnalysisSchema = z.object({
+  gaps: z.array(gapSchema),
+  summary: z.string(),
+});
+
+export const clarificationQuestionSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  context: z.string(),
+  gap_type: gapSchema.shape.type,
+});
+
+export const clarificationQuestionsSchema = z.object({
+  questions: z.array(clarificationQuestionSchema),
+});
+
+export const processStepSchema = z.object({
+  id: z.string(),
+  order: z.number().int().positive(),
+  name: z.string(),
+  description: z.string(),
+  type: z.enum(["action", "decision", "subprocess"]),
+  actor_role: z.string(),
+  inputs: z.array(z.string()),
+  outputs: z.array(z.string()),
+  duration_estimate: z.string().nullable(),
+  decision_criteria: z.string().nullable(),
+  branches: z
+    .array(z.object({ label: z.string(), next_step_id: z.string() }))
+    .nullable(),
+  exception_handling: z.string().nullable(),
+});
+
+export const roleSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+});
+
+export const processMetadataSchema = z.object({
+  domain: z.string(),
+  estimated_total_duration: z.string(),
+  trigger: z.string(),
+  end_condition: z.string(),
+});
+
+export const processStructuredDataSchema = z.object({
+  steps: z.array(processStepSchema),
+  roles: z.array(roleSchema),
+  metadata: processMetadataSchema,
+});
+
+export type GapAnalysis = z.infer<typeof gapAnalysisSchema>;
+export type ClarificationQuestions = z.infer<typeof clarificationQuestionsSchema>;
+export type ProcessStructuredData = z.infer<typeof processStructuredDataSchema>;
+export type ProcessStep = z.infer<typeof processStepSchema>;

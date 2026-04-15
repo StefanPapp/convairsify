@@ -34,7 +34,7 @@ export async function processRecordingWorkflow(
 ) {
   "use workflow";
 
-  const { runId } = getWorkflowMetadata();
+  const { workflowRunId: runId } = getWorkflowMetadata();
   const writable = getWritable<ProgressUpdate>();
 
   // Step 1: Finalize transcript

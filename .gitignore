@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.local
+.env.*.local
+.next/
+out/
+.vercel
+.superpowers/
+.claude/
+.DS_Store
+*.tsbuildinfo

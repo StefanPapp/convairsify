@@ -88,6 +88,10 @@ export function useDeepgram() {
 
     connectionRef.current = connection;
 
+    // The SDK creates the socket with startClosed=true, so we must explicitly
+    // call connect() AFTER registering event handlers to actually open it.
+    connection.connect();
+
     // Wait for the WebSocket to fully open, with a 10-second timeout.
     // Without a timeout, an auth failure would hang the UI forever.
     await Promise.race([

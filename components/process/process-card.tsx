@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import type { Process } from "@/lib/db/schema";
@@ -17,7 +18,12 @@ export function ProcessCard({ process }: { process: Process }) {
   const stepCount = data?.steps?.length ?? 0;
   const decisionCount = data?.steps?.filter((s) => s.type === "decision").length ?? 0;
 
-  const timeAgo = getTimeAgo(new Date(process.updatedAt));
+  // Compute timeAgo only on the client after mount — avoids SSR/hydration mismatch
+  // where Date.now() differs between server render and client hydration.
+  const [timeAgo, setTimeAgo] = useState<string | null>(null);
+  useEffect(() => {
+    setTimeAgo(getTimeAgo(new Date(process.updatedAt)));
+  }, [process.updatedAt]);
 
   return (
     <Link href={`/process/${process.id}`}>
@@ -37,7 +43,9 @@ export function ProcessCard({ process }: { process: Process }) {
             {config.label}
           </Badge>
         </div>
-        <p className="text-xs text-slate-500 mt-2">Updated {timeAgo}</p>
+        <p className="text-xs text-slate-500 mt-2 min-h-[1rem]">
+          {timeAgo ? `Updated ${timeAgo}` : "\u00a0"}
+        </p>
       </div>
     </Link>
   );

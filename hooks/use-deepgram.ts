@@ -17,11 +17,28 @@ export function useDeepgram() {
   const [transcript, setTranscript] = useState("");
   const [interimText, setInterimText] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const connectionRef = useRef<DeepgramConnection | null>(null);
 
   const connect = useCallback(async () => {
+    setError(null);
+    console.log("[deepgram] fetching token...");
+
     const res = await fetch("/api/deepgram/token");
+    if (!res.ok) {
+      const msg = `Token endpoint returned ${res.status}`;
+      console.error("[deepgram]", msg);
+      setError(msg);
+      throw new Error(msg);
+    }
     const { key } = await res.json();
+    if (!key || typeof key !== "string" || key.length < 10) {
+      const msg = "Deepgram API key is missing or invalid in server env";
+      console.error("[deepgram]", msg);
+      setError(msg);
+      throw new Error(msg);
+    }
+    console.log("[deepgram] got token, connecting...");
 
     const client = new DeepgramClient({ apiKey: key });
     const connection = await client.listen.v1.connect({
@@ -36,6 +53,7 @@ export function useDeepgram() {
     });
 
     connection.on("open", () => {
+      console.log("[deepgram] socket open");
       setIsConnected(true);
     });
 
@@ -58,20 +76,27 @@ export function useDeepgram() {
       }
     });
 
-    connection.on("error", (error) => {
-      console.error("Deepgram error:", error);
+    connection.on("error", (err) => {
+      console.error("[deepgram] error event:", err);
+      setError(err instanceof Error ? err.message : "Deepgram connection error");
     });
 
     connection.on("close", () => {
+      console.log("[deepgram] socket closed");
       setIsConnected(false);
     });
 
     connectionRef.current = connection;
 
-    // Wait for the WebSocket to fully open before returning —
-    // otherwise the first audio chunks arrive before the socket is ready
-    // and sendMedia() throws "Socket is not open".
-    await connection.waitForOpen();
+    // Wait for the WebSocket to fully open, with a 10-second timeout.
+    // Without a timeout, an auth failure would hang the UI forever.
+    await Promise.race([
+      connection.waitForOpen(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Deepgram connection timed out after 10s")), 10_000)
+      ),
+    ]);
+    console.log("[deepgram] ready to send audio");
   }, []);
 
   const sendAudio = useCallback((data: Blob) => {
@@ -99,6 +124,7 @@ export function useDeepgram() {
     interimText,
     fullText: transcript + (interimText ? " " + interimText : ""),
     isConnected,
+    error,
     connect,
     sendAudio,
     disconnect,

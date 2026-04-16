@@ -25,9 +25,21 @@ export function AudioRecorder() {
 
   const recorder = useAudioRecorder(onAudioData);
 
+  const [startError, setStartError] = useState<string | null>(null);
+  const [isStarting, setIsStarting] = useState(false);
+
   const handleStart = async () => {
-    await deepgram.connect();
-    await recorder.startRecording();
+    setStartError(null);
+    setIsStarting(true);
+    try {
+      await deepgram.connect();
+      await recorder.startRecording();
+    } catch (err) {
+      console.error("Failed to start recording:", err);
+      setStartError(err instanceof Error ? err.message : "Failed to start recording");
+    } finally {
+      setIsStarting(false);
+    }
   };
 
   const handleStop = async () => {
@@ -57,12 +69,15 @@ export function AudioRecorder() {
         <Button
           onClick={handleStart}
           size="lg"
+          disabled={isStarting}
           className="w-full bg-indigo-600 hover:bg-indigo-700"
         >
-          Start Recording
+          {isStarting ? "Connecting..." : "Start Recording"}
         </Button>
-        {recorder.error && (
-          <p className="text-sm text-red-400">{recorder.error}</p>
+        {(recorder.error || startError || deepgram.error) && (
+          <p className="text-sm text-red-400">
+            {recorder.error ?? startError ?? deepgram.error}
+          </p>
         )}
       </div>
     );

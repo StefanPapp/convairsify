@@ -25,7 +25,7 @@ export function useDeepgram() {
 
     const client = new DefaultDeepgramClient({ apiKey: key });
     const connection = await client.listen.v1.connect({
-      Authorization: key,
+      Authorization: `Token ${key}`,
       model: "nova-3",
       language: "en",
       smart_format: ListenV1SmartFormat.True,
@@ -40,7 +40,6 @@ export function useDeepgram() {
     });
 
     connection.on("message", (data) => {
-      // data is ListenV1Results | ListenV1Metadata | ListenV1UtteranceEnd | ListenV1SpeechStarted
       const result = data as {
         type?: string;
         is_final?: boolean;
@@ -68,12 +67,19 @@ export function useDeepgram() {
     });
 
     connectionRef.current = connection;
+
+    // Wait for the WebSocket to fully open before returning —
+    // otherwise the first audio chunks arrive before the socket is ready
+    // and sendMedia() throws "Socket is not open".
+    await connection.waitForOpen();
   }, []);
 
   const sendAudio = useCallback((data: Blob) => {
-    if (connectionRef.current) {
-      connectionRef.current.sendMedia(data);
-    }
+    const conn = connectionRef.current;
+    if (!conn) return;
+    // Guard: drop audio if socket closed mid-stream
+    if (conn.readyState !== 1 /* WebSocket.OPEN */) return;
+    conn.sendMedia(data);
   }, []);
 
   const disconnect = useCallback(() => {

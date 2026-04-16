@@ -7,14 +7,21 @@ import { useProcess, useSubmitClarification } from "@/hooks/use-processes";
 import { QuestionList } from "@/components/clarification/question-list";
 import { Skeleton } from "@/components/ui/skeleton";
 
-type PendingQuestions = {
-  pendingQuestions: {
+type StructuredDataShape = {
+  pendingQuestions?: {
     id: string;
     text: string;
     context: string;
     gap_type: string;
   }[];
+  progress?: {
+    stage: string;
+    message: string;
+    at: string;
+  };
 };
+
+const STAGE_ORDER = ["finalize", "analyze", "questions", "waiting", "structuring", "storing", "complete"];
 
 export default function ReviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -42,14 +49,31 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
     return null;
   }
 
-  const data = process.structuredData as PendingQuestions | null;
+  const data = process.structuredData as StructuredDataShape | null;
   const questions = data?.pendingQuestions ?? [];
+  const progress = data?.progress;
 
   if (questions.length === 0) {
+    const stageIndex = progress ? STAGE_ORDER.indexOf(progress.stage) : -1;
+    const percent = stageIndex >= 0 ? ((stageIndex + 1) / STAGE_ORDER.length) * 100 : 8;
     return (
-      <div className="max-w-lg mx-auto p-8 text-center">
-        <p className="text-slate-300">AI is analyzing your recording...</p>
-        <p className="text-sm text-slate-500 mt-1">This usually takes 15-30 seconds</p>
+      <div className="max-w-lg mx-auto p-8 space-y-6">
+        <div className="text-center">
+          <p className="text-slate-200 font-medium">
+            {progress?.message ?? "Starting AI analysis..."}
+          </p>
+          <p className="text-sm text-slate-500 mt-2">
+            {progress?.stage
+              ? `Stage: ${progress.stage}`
+              : "This usually takes 15-30 seconds"}
+          </p>
+        </div>
+        <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-indigo-500 transition-all duration-500 ease-out"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
       </div>
     );
   }

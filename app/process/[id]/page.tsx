@@ -8,6 +8,13 @@ import { RoleBadges } from "@/components/process/role-badges";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ProcessStructuredData } from "@/lib/ai/schemas";
 
+type StructuredOrProgress = Partial<ProcessStructuredData> & {
+  progress?: { stage: string; message: string; at: string };
+  pendingQuestions?: unknown[];
+};
+
+const STAGE_ORDER = ["finalize", "analyze", "questions", "waiting", "structuring", "storing", "complete"];
+
 export default function ProcessViewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   // Poll until the process is structured (status becomes "complete" with structuredData)
@@ -26,7 +33,10 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
     return <div className="p-4 text-slate-400">Process not found</div>;
   }
 
-  const data = process.structuredData as ProcessStructuredData | null;
+  const raw = process.structuredData as StructuredOrProgress | null;
+  const isFullyStructured = Boolean(raw?.steps && raw?.roles && raw?.metadata);
+  const data = isFullyStructured ? (raw as ProcessStructuredData) : null;
+  const progress = raw?.progress;
 
   return (
     <div className="min-h-screen">
@@ -41,9 +51,13 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
               </p>
             )}
           </div>
-          <Link href={`/process/${id}/edit`} className="text-sm text-indigo-400">
-            Edit
-          </Link>
+          {data ? (
+            <Link href={`/process/${id}/edit`} className="text-sm text-indigo-400">
+              Edit
+            </Link>
+          ) : (
+            <div className="w-10" />
+          )}
         </div>
       </div>
 
@@ -62,11 +76,35 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
             )}
           </>
         ) : (
-          <div className="text-center py-12 text-slate-500">
-            <p>Process is still being structured...</p>
-            <p className="text-sm mt-1">Check back in a moment</p>
-          </div>
+          <ProgressView progress={progress} />
         )}
+      </div>
+    </div>
+  );
+}
+
+function ProgressView({
+  progress,
+}: {
+  progress?: { stage: string; message: string; at: string };
+}) {
+  const stageIndex = progress ? STAGE_ORDER.indexOf(progress.stage) : -1;
+  const percent = stageIndex >= 0 ? ((stageIndex + 1) / STAGE_ORDER.length) * 100 : 8;
+  return (
+    <div className="py-12 space-y-6">
+      <div className="text-center">
+        <p className="text-slate-200 font-medium">
+          {progress?.message ?? "Starting AI analysis..."}
+        </p>
+        <p className="text-sm text-slate-500 mt-2">
+          {progress?.stage ? `Stage: ${progress.stage}` : "Polling for updates..."}
+        </p>
+      </div>
+      <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+        <div
+          className="h-full bg-indigo-500 transition-all duration-500 ease-out"
+          style={{ width: `${percent}%` }}
+        />
       </div>
     </div>
   );

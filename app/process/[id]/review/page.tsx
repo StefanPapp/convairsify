@@ -19,7 +19,8 @@ type PendingQuestions = {
 export default function ReviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
-  const { data: process, isLoading } = useProcess(id);
+  // Poll every 2s while the workflow is still generating questions
+  const { data: process, isLoading } = useProcess(id, { poll: true });
   const submitClarification = useSubmitClarification(id);
 
   if (isLoading) {

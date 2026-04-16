@@ -16,11 +16,13 @@ export function useProcesses() {
   });
 }
 
-export function useProcess(id: string) {
+export function useProcess(id: string, { poll = false }: { poll?: boolean } = {}) {
   return useQuery<Process>({
     queryKey: ["process", id],
     queryFn: () => fetchJson(`/api/process/${id}`),
     enabled: !!id,
+    // Poll every 2s while the workflow is still processing
+    refetchInterval: poll ? 2000 : false,
   });
 }
 

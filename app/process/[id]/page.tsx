@@ -10,7 +10,8 @@ import type { ProcessStructuredData } from "@/lib/ai/schemas";
 
 export default function ProcessViewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { data: process, isLoading } = useProcess(id);
+  // Poll until the process is structured (status becomes "complete" with structuredData)
+  const { data: process, isLoading } = useProcess(id, { poll: true });
 
   if (isLoading) {
     return (

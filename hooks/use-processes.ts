@@ -21,8 +21,13 @@ export function useProcess(id: string, { poll = false }: { poll?: boolean } = {}
     queryKey: ["process", id],
     queryFn: () => fetchJson(`/api/process/${id}`),
     enabled: !!id,
-    // Poll every 2s while the workflow is still processing
-    refetchInterval: poll ? 2000 : false,
+    // Poll every 2s while the workflow is still processing; stop once complete
+    refetchInterval: (query) => {
+      if (!poll) return false;
+      const data = query.state.data;
+      if (data?.status === "complete") return false;
+      return 2000;
+    },
   });
 }
 

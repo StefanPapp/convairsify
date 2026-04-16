@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import {
-  DefaultDeepgramClient,
+  DeepgramClient,
   ListenV1SmartFormat,
   ListenV1InterimResults,
   ListenV1VadEvents,
@@ -10,7 +10,7 @@ import {
 
 // Infer the connection type from the client to avoid deep import paths
 type DeepgramConnection = Awaited<
-  ReturnType<InstanceType<typeof DefaultDeepgramClient>["listen"]["v1"]["connect"]>
+  ReturnType<InstanceType<typeof DeepgramClient>["listen"]["v1"]["connect"]>
 >;
 
 export function useDeepgram() {
@@ -23,7 +23,7 @@ export function useDeepgram() {
     const res = await fetch("/api/deepgram/token");
     const { key } = await res.json();
 
-    const client = new DefaultDeepgramClient({ apiKey: key });
+    const client = new DeepgramClient({ apiKey: key });
     const connection = await client.listen.v1.connect({
       Authorization: `Token ${key}`,
       model: "nova-3",

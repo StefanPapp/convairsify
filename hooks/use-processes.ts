@@ -21,11 +21,12 @@ export function useProcess(id: string, { poll = false }: { poll?: boolean } = {}
     queryKey: ["process", id],
     queryFn: () => fetchJson(`/api/process/${id}`),
     enabled: !!id,
-    // Poll every 2s while the workflow is still processing; stop once complete
+    // Poll every 2s while the workflow is still processing; stop once terminal or paused
     refetchInterval: (query) => {
       if (!poll) return false;
       const data = query.state.data;
-      if (data?.status === "complete") return false;
+      if (!data) return 2000;
+      if (data.status === "complete" || data.status === "reviewing" || data.status === "failed") return false;
       return 2000;
     },
   });
@@ -69,6 +70,17 @@ export function useDeleteProcess() {
       fetch(`/api/process/${id}`, { method: "DELETE" }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["processes"] });
+    },
+  });
+}
+
+export function useRestartProcess(processId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      fetchJson(`/api/process/${processId}/restart`, { method: "POST" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["process", processId] });
     },
   });
 }

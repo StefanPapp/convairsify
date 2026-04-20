@@ -12,6 +12,7 @@ export const processStatusEnum = pgEnum("process_status", [
   "draft",
   "reviewing",
   "complete",
+  "failed",
 ]);
 
 export const processes = pgTable("processes", {

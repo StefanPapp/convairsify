@@ -37,14 +37,15 @@ export const processStepSchema = z.object({
   description: z.string(),
   type: z.enum(["action", "decision", "subprocess"]),
   actor_role: z.string(),
-  inputs: z.array(z.string()),
-  outputs: z.array(z.string()),
-  duration_estimate: z.string().nullable(),
-  decision_criteria: z.string().nullable(),
+  inputs: z.array(z.string()).default([]),
+  outputs: z.array(z.string()).default([]),
+  duration_estimate: z.string().nullable().default(null),
+  decision_criteria: z.string().nullable().default(null),
   branches: z
     .array(z.object({ label: z.string(), next_step_id: z.string() }))
-    .nullable(),
-  exception_handling: z.string().nullable(),
+    .nullable()
+    .default(null),
+  exception_handling: z.string().nullable().default(null),
 });
 
 export const roleSchema = z.object({
@@ -54,10 +55,10 @@ export const roleSchema = z.object({
 });
 
 export const processMetadataSchema = z.object({
-  domain: z.string(),
-  estimated_total_duration: z.string(),
-  trigger: z.string(),
-  end_condition: z.string(),
+  domain: z.string().default("general"),
+  estimated_total_duration: z.string().default("unknown"),
+  trigger: z.string().default(""),
+  end_condition: z.string().default(""),
 });
 
 export const processStructuredDataSchema = z.object({

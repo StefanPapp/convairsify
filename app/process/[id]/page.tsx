@@ -1,8 +1,8 @@
 "use client";
 
-import { use } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useProcess } from "@/hooks/use-processes";
+import { useProcess, useRestartProcess } from "@/hooks/use-processes";
 import { StepTimeline } from "@/components/process/step-timeline";
 import { RoleBadges } from "@/components/process/role-badges";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,11 +14,32 @@ type StructuredOrProgress = Partial<ProcessStructuredData> & {
 };
 
 const STAGE_ORDER = ["finalize", "analyze", "questions", "waiting", "structuring", "storing", "complete"];
+const STALL_TIMEOUT_MS = 90_000;
 
 export default function ProcessViewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  // Poll until the process is structured (status becomes "complete" with structuredData)
   const { data: process, isLoading } = useProcess(id, { poll: true });
+  const restartProcess = useRestartProcess(id);
+  const [stalled, setStalled] = useState(false);
+  const lastProgressRef = useRef<string | null>(null);
+  const stallTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+  const raw = process?.structuredData as StructuredOrProgress | null;
+  const progress = raw?.progress;
+
+  useEffect(() => {
+    if (!process || process.status === "complete") return;
+    const progressKey = progress?.stage ?? null;
+
+    if (progressKey !== lastProgressRef.current) {
+      lastProgressRef.current = progressKey;
+      setStalled(false);
+      clearTimeout(stallTimerRef.current);
+    }
+
+    stallTimerRef.current = setTimeout(() => setStalled(true), STALL_TIMEOUT_MS);
+    return () => clearTimeout(stallTimerRef.current);
+  }, [process, progress?.stage]);
 
   if (isLoading) {
     return (
@@ -33,10 +54,9 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
     return <div className="p-4 text-slate-400">Process not found</div>;
   }
 
-  const raw = process.structuredData as StructuredOrProgress | null;
   const isFullyStructured = Boolean(raw?.steps && raw?.roles && raw?.metadata);
   const data = isFullyStructured ? (raw as ProcessStructuredData) : null;
-  const progress = raw?.progress;
+  const errorMessage = (raw as { error?: string } | null)?.error;
 
   return (
     <div className="min-h-screen">
@@ -76,7 +96,15 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
             )}
           </>
         ) : (
-          <ProgressView progress={progress} />
+          <ProgressView
+            progress={progress}
+            stalled={stalled}
+            errorMessage={errorMessage}
+            failed={process.status === "failed"}
+            hasInput={!!(raw as { _input?: unknown } | null)?._input}
+            onRestart={() => restartProcess.mutate(undefined, { onSuccess: () => setStalled(false) })}
+            isRestarting={restartProcess.isPending}
+          />
         )}
       </div>
     </div>
@@ -85,9 +113,60 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
 
 function ProgressView({
   progress,
+  stalled,
+  failed,
+  errorMessage,
+  hasInput,
+  onRestart,
+  isRestarting,
 }: {
   progress?: { stage: string; message: string; at: string };
+  stalled: boolean;
+  failed: boolean;
+  errorMessage?: string;
+  hasInput: boolean;
+  onRestart: () => void;
+  isRestarting: boolean;
 }) {
+  if (failed || stalled) {
+    return (
+      <div className="py-12 space-y-6">
+        <div className="text-center space-y-3">
+          <p className="text-red-400 font-medium">
+            {failed ? "Processing failed" : "Workflow appears to have stalled"}
+          </p>
+          <p className="text-sm text-red-300/70">
+            {errorMessage ?? "No progress received. The workflow may have failed or the dev server was restarted."}
+          </p>
+        </div>
+        <div className="flex gap-3 justify-center">
+          <Link
+            href="/"
+            className="inline-flex items-center justify-center rounded-md border border-slate-700 bg-transparent px-4 py-2 text-sm font-medium text-slate-200 hover:bg-slate-800"
+          >
+            Back to home
+          </Link>
+          {hasInput ? (
+            <button
+              onClick={onRestart}
+              disabled={isRestarting}
+              className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
+            >
+              {isRestarting ? "Restarting..." : "Restart"}
+            </button>
+          ) : (
+            <Link
+              href="/record"
+              className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+            >
+              Record again
+            </Link>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   const stageIndex = progress ? STAGE_ORDER.indexOf(progress.stage) : -1;
   const percent = stageIndex >= 0 ? ((stageIndex + 1) / STAGE_ORDER.length) * 100 : 8;
   return (

@@ -26,7 +26,13 @@ export async function POST(request: Request) {
   const parsed = createProcessSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   const org = orgId ?? userId;
-  const process = await createProcess({ name: parsed.data.name, orgId: org, createdBy: userId, status: "draft" });
+  const process = await createProcess({
+    name: parsed.data.name,
+    orgId: org,
+    createdBy: userId,
+    status: "draft",
+    structuredData: { _input: { transcript: parsed.data.transcript, durationSeconds: parsed.data.durationSeconds } },
+  });
   const run = await start(processRecordingWorkflow, [process.id, parsed.data.transcript, parsed.data.durationSeconds]);
   return NextResponse.json({ ...process, workflowRunId: run.runId }, { status: 201 });
 }

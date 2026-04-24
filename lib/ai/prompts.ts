@@ -43,5 +43,6 @@ Rules:
 - Generate short unique IDs (s1, s2... for steps, r1, r2... for roles)
 - Order steps sequentially as described
 - Include process metadata: domain, total duration, trigger, end condition
+- Write a "summary" field: 1-2 sentences describing the entire process in plain language — what it does, who's involved, and when it's triggered. This will be shown as a preview on the process list.
 
 If clarification answers are empty, do your best with the transcript alone but be conservative — use null for uncertain fields rather than guessing.`;

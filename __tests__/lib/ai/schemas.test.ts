@@ -45,6 +45,7 @@ describe("AI output schemas", () => {
 
   it("should validate a complete structured process", () => {
     const result = processStructuredDataSchema.safeParse({
+      summary: "A quality control process for receiving and inspecting incoming samples at the loading dock.",
       steps: [
         {
           id: "s1",
@@ -76,6 +77,7 @@ describe("AI output schemas", () => {
 
   it("should reject process with invalid step type", () => {
     const result = processStructuredDataSchema.safeParse({
+      summary: "x",
       steps: [
         {
           id: "s1", order: 1, name: "x", description: "x",

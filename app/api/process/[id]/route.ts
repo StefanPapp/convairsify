@@ -6,6 +6,7 @@ import { z } from "zod";
 const updateProcessSchema = z.object({
   name: z.string().min(1).max(200).optional(),
   description: z.string().optional(),
+  tags: z.array(z.string().min(1).max(50)).max(20).optional(),
   structuredData: z.unknown().optional(),
 });
 

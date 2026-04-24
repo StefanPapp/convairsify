@@ -1,0 +1,60 @@
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e10] [cursor=pointer]:
+    - img [ref=e11]
+  - alert [ref=e14]
+  - generic [ref=e196]:
+    - heading "My Processes" [level=1] [ref=e199]
+    - generic [ref=e200]:
+      - textbox "Search processes..." [ref=e201]
+      - generic [ref=e202]:
+        - generic [ref=e203]:
+          - link "process 14 steps · 4 decision points Complete Updated 18h ago" [ref=e204] [cursor=pointer]:
+            - /url: /process/cbbe7b26-7fa7-4041-9336-55193af98fe2
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - generic [ref=e207]:
+                  - heading "process" [level=3] [ref=e208]
+                  - paragraph [ref=e209]: 14 steps · 4 decision points
+                - generic [ref=e210]: Complete
+              - paragraph [ref=e211]: Updated 18h ago
+          - button "Delete process" [ref=e212]:
+            - img [ref=e213]
+        - generic [ref=e216]:
+          - link "test-process Awaiting clarification Reviewing Updated 18h ago" [ref=e217] [cursor=pointer]:
+            - /url: /process/9091a913-dc5a-4c4c-a46b-75cd99a5e398
+            - generic [ref=e218]:
+              - generic [ref=e219]:
+                - generic [ref=e220]:
+                  - heading "test-process" [level=3] [ref=e221]
+                  - paragraph [ref=e222]: Awaiting clarification
+                - generic [ref=e223]: Reviewing
+              - paragraph [ref=e224]: Updated 18h ago
+          - button "Delete process" [ref=e225]:
+            - img [ref=e226]
+        - generic [ref=e229]:
+          - link "test-process Awaiting clarification Reviewing Updated 18h ago" [ref=e230] [cursor=pointer]:
+            - /url: /process/8785223a-806e-4797-8632-416367901206
+            - generic [ref=e231]:
+              - generic [ref=e232]:
+                - generic [ref=e233]:
+                  - heading "test-process" [level=3] [ref=e234]
+                  - paragraph [ref=e235]: Awaiting clarification
+                - generic [ref=e236]: Reviewing
+              - paragraph [ref=e237]: Updated 18h ago
+          - button "Delete process" [ref=e238]:
+            - img [ref=e239]
+        - generic [ref=e242]:
+          - link "test 1 steps · 0 decision points Complete Updated 3d ago" [ref=e243] [cursor=pointer]:
+            - /url: /process/f6550e4b-cdcb-4b99-ad7f-3c1f74eac8ca
+            - generic [ref=e244]:
+              - generic [ref=e245]:
+                - generic [ref=e246]:
+                  - heading "test" [level=3] [ref=e247]
+                  - paragraph [ref=e248]: 1 steps · 0 decision points
+                - generic [ref=e249]: Complete
+              - paragraph [ref=e250]: Updated 3d ago
+          - button "Delete process" [ref=e251]:
+            - img [ref=e252]
+      - link "+ New Recording" [ref=e256] [cursor=pointer]:
+        - /url: /record
+        - button "+ New Recording" [ref=e257]

@@ -34,6 +34,18 @@ export function ProcessCard({ process }: { process: Process }) {
           <div className="flex justify-between items-start">
             <div className="min-w-0 flex-1 pr-2">
               <h3 className="font-semibold text-slate-100">{process.name}</h3>
+              {process.description && (
+                <p className="text-sm text-slate-400 mt-1 line-clamp-2">{process.description}</p>
+              )}
+              {process.tags && process.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-1.5">
+                  {process.tags.map((tag) => (
+                    <span key={tag} className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-700 text-slate-300">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
               <p className={`text-xs mt-1 ${process.status === "failed" ? "text-red-400" : "text-slate-400"}`}>
                 {stepCount > 0
                   ? `${stepCount} steps \u00b7 ${decisionCount} decision points`

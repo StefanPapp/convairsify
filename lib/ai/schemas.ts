@@ -62,6 +62,7 @@ export const processMetadataSchema = z.object({
 });
 
 export const processStructuredDataSchema = z.object({
+  summary: z.string(),
   steps: z.array(processStepSchema),
   roles: z.array(roleSchema),
   metadata: processMetadataSchema,

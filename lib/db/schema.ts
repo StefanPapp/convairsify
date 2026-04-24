@@ -20,6 +20,8 @@ export const processes = pgTable("processes", {
   orgId: text("org_id").notNull(),
   name: text("name").notNull(),
   description: text("description"),
+  tags: jsonb("tags").$type<string[]>().default([]),
+  roles: jsonb("roles").$type<string[]>().default([]),
   status: processStatusEnum("status").notNull().default("draft"),
   createdBy: text("created_by").notNull(),
   structuredData: jsonb("structured_data"),

@@ -1,0 +1,43 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - heading "ConvAIrsify MVP" [level=1] [ref=e5]
+    - generic [ref=e6]:
+      - textbox "Search processes..." [ref=e7]
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: Tags
+          - button "review" [ref=e28]
+          - button "quality-control" [ref=e29]
+          - button "qa" [ref=e30]
+        - generic [ref=e31]:
+          - generic [ref=e32]: Roles
+          - button "Human Coordinator" [ref=e33]
+          - button "Claude Code (Promise Check Skill)" [ref=e34]
+          - button "Claude Code (Fact Check Skill)" [ref=e35]
+          - button "Claude Code (Structure Skill)" [ref=e36]
+          - button "Claude Code (Style Skill)" [ref=e37]
+          - button "Copy Editor" [active] [ref=e38]
+          - button "Unknown Role" [ref=e39]
+        - button "Clear filters" [ref=e96]
+      - generic [ref=e40]:
+        - link "Chapter Review Process review quality-control qa 14 steps · 4 decision points Complete Updated 15m ago" [ref=e41] [cursor=pointer]:
+          - /url: /process/cbbe7b26-7fa7-4041-9336-55193af98fe2
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - generic [ref=e44]:
+                - heading "Chapter Review Process" [level=3] [ref=e45]
+                - generic [ref=e46]:
+                  - generic [ref=e47]: review
+                  - generic [ref=e48]: quality-control
+                  - generic [ref=e49]: qa
+                - paragraph [ref=e50]: 14 steps · 4 decision points
+              - generic [ref=e51]: Complete
+            - paragraph [ref=e52]: Updated 15m ago
+        - button "Delete process" [ref=e53]:
+          - img [ref=e54]
+      - link "+ New Recording" [ref=e13] [cursor=pointer]:
+        - /url: /record
+        - button "+ New Recording" [ref=e14]
+  - button "Open Next.js Dev Tools" [ref=e20] [cursor=pointer]:
+    - img [ref=e21]
+  - alert [ref=e24]

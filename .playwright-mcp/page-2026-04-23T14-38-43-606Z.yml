@@ -1,0 +1,13 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - link "Back" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - heading "New Recording" [level=1] [ref=e6]
+    - generic [ref=e8]:
+      - textbox "Process name (e.g., Sample Receipt QC)" [ref=e9]
+      - button "Start Recording" [ref=e10]
+      - generic [ref=e13]: or
+      - generic [ref=e15] [cursor=pointer]: Upload Text Manually
+  - button "Open Next.js Dev Tools" [ref=e21] [cursor=pointer]:
+    - img [ref=e22]

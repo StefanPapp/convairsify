@@ -5,9 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useProcess, useUpdateProcess } from "@/hooks/use-processes";
 import { StepEditor } from "@/components/process/step-editor";
+import { TagEditor } from "@/components/process/tag-editor";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import type { ProcessStructuredData } from "@/lib/ai/schemas";
+import { validateProcessName } from "@/lib/validate-process-name";
 
 export default function ProcessEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -15,9 +17,13 @@ export default function ProcessEditPage({ params }: { params: Promise<{ id: stri
   const { data: process, isLoading } = useProcess(id);
   const updateProcess = useUpdateProcess(id);
   const [name, setName] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
 
   useEffect(() => {
-    if (process) setName(process.name);
+    if (process) {
+      setName(process.name);
+      setTags(process.tags ?? []);
+    }
   }, [process]);
 
   if (isLoading) {
@@ -41,6 +47,7 @@ export default function ProcessEditPage({ params }: { params: Promise<{ id: stri
   const handleSave = async (steps: ProcessStructuredData["steps"]) => {
     await updateProcess.mutateAsync({
       name,
+      tags,
       structuredData: { ...data, steps },
     });
     router.push(`/process/${id}`);
@@ -59,12 +66,21 @@ export default function ProcessEditPage({ params }: { params: Promise<{ id: stri
       </div>
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
-        <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Process name"
-          className="bg-slate-800 border-slate-700 text-lg font-semibold"
-        />
+        <div>
+          <Input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Process name"
+            className="bg-slate-800 border-slate-700 text-lg font-semibold"
+          />
+          {validateProcessName(name) && (
+            <p className="mt-1.5 text-xs text-amber-400">{validateProcessName(name)}</p>
+          )}
+        </div>
+        <div>
+          <label className="text-sm font-medium text-slate-300 mb-1.5 block">Tags</label>
+          <TagEditor tags={tags} onChange={setTags} />
+        </div>
         <StepEditor
           steps={data.steps}
           onSave={handleSave}

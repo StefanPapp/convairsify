@@ -11,7 +11,8 @@ export async function storeProcess(
 ) {
   "use step";
   console.log("[storeProcess] Saving process %s (%d steps)", processId, structuredData.steps.length);
-  await updateProcess(processId, { structuredData, status: "complete" });
+  const roleNames = structuredData.roles.map((r) => r.name);
+  await updateProcess(processId, { structuredData, status: "complete", description: structuredData.summary, roles: roleNames });
   await createRecording({ processId, rawTranscript: transcript, durationSeconds, clarificationQa, workflowRunId });
   console.log("[storeProcess] Done");
   return { success: true };

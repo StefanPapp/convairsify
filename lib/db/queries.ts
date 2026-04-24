@@ -26,7 +26,7 @@ export async function createProcess(data: ProcessInsert) {
 
 export async function updateProcess(
   id: string,
-  data: Partial<Pick<ProcessInsert, "name" | "description" | "status"> & { structuredData: unknown }>
+  data: Partial<Pick<ProcessInsert, "name" | "description" | "status" | "tags" | "roles"> & { structuredData: unknown }>
 ) {
   const rows = await db
     .update(processes)

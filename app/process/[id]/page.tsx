@@ -2,6 +2,7 @@
 
 import { use, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useProcess, useRestartProcess } from "@/hooks/use-processes";
 import { StepTimeline } from "@/components/process/step-timeline";
 import { RoleBadges } from "@/components/process/role-badges";
@@ -18,6 +19,7 @@ const STALL_TIMEOUT_MS = 90_000;
 
 export default function ProcessViewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
+  const router = useRouter();
   const { data: process, isLoading } = useProcess(id, { poll: true });
   const restartProcess = useRestartProcess(id);
   const [stalled, setStalled] = useState(false);
@@ -41,6 +43,12 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
     return () => clearTimeout(stallTimerRef.current);
   }, [process, progress?.stage]);
 
+  useEffect(() => {
+    if (process?.status === "reviewing") {
+      router.replace(`/process/${id}/review`);
+    }
+  }, [process?.status, id, router]);
+
   if (isLoading) {
     return (
       <div className="max-w-lg mx-auto p-4 space-y-4">
@@ -52,6 +60,10 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
 
   if (!process) {
     return <div className="p-4 text-slate-400">Process not found</div>;
+  }
+
+  if (process.status === "reviewing") {
+    return null;
   }
 
   const isFullyStructured = Boolean(raw?.steps && raw?.roles && raw?.metadata);

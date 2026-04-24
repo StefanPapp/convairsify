@@ -1,0 +1,81 @@
+[     161ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[     184ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[     242ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[     310ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[   10096ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[   10161ms] [LOG] [Fast Refresh] done in 166ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[   10458ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[   10468ms] [LOG] [Fast Refresh] done in 111ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[   10539ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  128149ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  130147ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  150902ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=DrVXfJipxrOvowZvB02MT' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_client_0062lyl._.js:13299
+[  153450ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  154663ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  154702ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  154845ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  154899ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  155115ms] [LOG] [Fast Refresh] done in 317ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  155392ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  536279ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=XZBXjEPGsxKeVOblbGxzp' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_client_0062lyl._.js:13299
+[  537280ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=XZBXjEPGsxKeVOblbGxzp' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_client_0062lyl._.js:13299
+[  539105ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  540423ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  540481ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  540773ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  540944ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  541170ms] [LOG] [Fast Refresh] done in 326ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  541556ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  565022ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  565039ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  565118ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  565162ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  570626ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  570653ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  570708ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  570775ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  615297ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  615316ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  615374ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  615437ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  615450ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  620192ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  620222ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  620276ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  620348ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  620367ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  623460ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  624999ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  647579ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  647599ms] [LOG] [Fast Refresh] done in 121ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  710904ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  710933ms] [LOG] [Fast Refresh] done in 93ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  717575ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  717588ms] ReferenceError: useRef is not defined
+    at AudioRecorder (http://localhost:3000/_next/static/chunks/src_convairsify_03f_hph._.js?id=%255Bproject%255D%252Fsrc%252Fconvairsify%252Fcomponents%252Frecording%252Faudio-recorder.tsx+%255Bapp-client%255D+%2528ecmascript%2529:36:26)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:9098:47)
+    at performSyncWorkOnRoot (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:10179:316)
+    at flushSyncWork$1 (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:9230:86)
+    at Object.scheduleRefresh (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_react-dom_0md.s41._.js:299:13)
+    at http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_06sut~a._.js:391:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_06sut~a._.js:384:38)
+    at applyUpdate (http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_06sut~a._.js:878:31)
+    at http://localhost:3000/_next/static/chunks/0a1v_next_dist_compiled_06sut~a._.js:886:13
+[  717616ms] [LOG] [Fast Refresh] done in 44ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  721807ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  721808ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  721834ms] [LOG] [Fast Refresh] done in 28ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  722036ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  722057ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  722152ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  722177ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431

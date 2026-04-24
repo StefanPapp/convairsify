@@ -50,7 +50,7 @@ export function useCreateProcess() {
 export function useUpdateProcess(id: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name?: string; description?: string; structuredData?: unknown }) =>
+    mutationFn: (data: { name?: string; description?: string; tags?: string[]; structuredData?: unknown }) =>
       fetchJson<Process>(`/api/process/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },

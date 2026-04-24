@@ -8,7 +8,7 @@ import { z } from "zod";
 const createProcessSchema = z.object({
   name: z.string().min(1).max(200),
   transcript: z.string().min(10),
-  durationSeconds: z.number().int().positive(),
+  durationSeconds: z.number().int().nonnegative(),
 });
 
 export async function GET() {

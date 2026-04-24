@@ -1,0 +1,8 @@
+[     231ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[     304ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[     320ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[     404ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[     489ms] [WARNING] Clerk: Clerk has been loaded with development keys. Development instances have strict usage limits and should not be used when deploying your application to production. Learn more: https://clerk.com/docs/deployments/overview @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[   19675ms] [ERROR] Manifest: Line: 1, column: 1, Syntax error. @ http://localhost:3000/manifest.json:0
+[  204439ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431
+[  205099ms] [LOG] [Fast Refresh] done in 760ms @ http://localhost:3000/_next/static/chunks/0a1v_next_dist_036859l._.js:2431

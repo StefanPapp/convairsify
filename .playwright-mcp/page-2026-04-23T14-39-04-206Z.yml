@@ -1,0 +1,7 @@
+- generic [active] [ref=e1]:
+  - button "Open Next.js Dev Tools" [ref=e21] [cursor=pointer]:
+    - img [ref=e22]
+  - alert [ref=e25]
+  - generic [ref=e27]:
+    - paragraph [ref=e28]: Starting AI analysis...
+    - paragraph [ref=e29]: This usually takes 15-30 seconds

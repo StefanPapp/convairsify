@@ -1,0 +1,32 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - heading "My Processes" [level=1] [ref=e5]
+    - generic [ref=e6]:
+      - textbox "Search processes..." [ref=e7]
+      - generic [ref=e25]:
+        - button "review" [active] [ref=e26]
+        - button "quality-control" [ref=e27]
+        - button "qa" [ref=e28]
+        - button "Clear" [ref=e85]
+      - generic [ref=e29]:
+        - link "Chapter Review Process review quality-control qa 14 steps · 4 decision points Complete Updated 2m ago" [ref=e30] [cursor=pointer]:
+          - /url: /process/cbbe7b26-7fa7-4041-9336-55193af98fe2
+          - generic [ref=e31]:
+            - generic [ref=e32]:
+              - generic [ref=e33]:
+                - heading "Chapter Review Process" [level=3] [ref=e34]
+                - generic [ref=e35]:
+                  - generic [ref=e36]: review
+                  - generic [ref=e37]: quality-control
+                  - generic [ref=e38]: qa
+                - paragraph [ref=e39]: 14 steps · 4 decision points
+              - generic [ref=e40]: Complete
+            - paragraph [ref=e41]: Updated 2m ago
+        - button "Delete process" [ref=e42]:
+          - img [ref=e43]
+      - link "+ New Recording" [ref=e13] [cursor=pointer]:
+        - /url: /record
+        - button "+ New Recording" [ref=e14]
+  - button "Open Next.js Dev Tools" [ref=e20] [cursor=pointer]:
+    - img [ref=e21]
+  - alert [ref=e24]

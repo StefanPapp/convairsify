@@ -25,8 +25,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider appearance={{ baseTheme: dark }}>
-      <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable}`}>
-        <body className="antialiased bg-slate-950 text-slate-50">
+      <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+        <body className="antialiased bg-slate-950 text-slate-50" suppressHydrationWarning>
           <Providers>{children}</Providers>
           <ServiceWorkerRegister />
         </body>

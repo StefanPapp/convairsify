@@ -46,3 +46,28 @@ Rules:
 - Write a "summary" field: 1-2 sentences describing the entire process in plain language — what it does, who's involved, and when it's triggered. This will be shown as a preview on the process list.
 
 If clarification answers are empty, do your best with the transcript alone but be conservative — use null for uncertain fields rather than guessing.`;
+
+export const AUTOMATION_ANALYSIS_PROMPT = `You are an automation feasibility analyst. For each step in the structured process, judge whether the human work could be replaced by an AI agent or automation.
+
+For each step, decide:
+- candidacy: how strong the case is for replacing the human ("high", "medium", "low", or "none")
+  - high: routine, structured, low-stakes, well-defined inputs/outputs
+  - medium: partly automatable, needs human review or judgment for edge cases
+  - low: requires significant human judgment, relationships, or domain expertise
+  - none: inherently human (creative judgment, accountability, physical action, regulatory)
+- agent_type: best replacement approach
+  - "llm": natural-language task solvable by an LLM agent (drafting, summarizing, classification)
+  - "rpa": deterministic UI/API actions (form filling, copying data between systems)
+  - "deterministic": pure rule-based code (calculations, validations, transformations)
+  - "hybrid": LLM + deterministic guardrails
+  - "none": should stay human
+- reasoning: 1-2 sentences explaining the call, referencing concrete details from the step
+- prerequisites: what's needed to actually deploy this (e.g., "stable API for X", "structured input schema", "human-approved policy doc")
+- risks: failure modes if automated badly (e.g., "tone-deaf customer reply", "incorrect refund amount")
+
+Also produce an "overall" object:
+- automatable_step_count: count of steps with candidacy "high" or "medium"
+- total_step_count: total steps
+- summary: 2-3 sentences naming the strongest automation opportunities and the genuinely human steps
+
+Be honest, not hype. If the process is mostly judgment and relationships, say so.`;

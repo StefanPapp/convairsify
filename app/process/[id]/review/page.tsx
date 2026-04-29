@@ -22,7 +22,8 @@ type StructuredDataShape = {
 };
 
 const STAGE_ORDER = ["finalize", "analyze", "questions", "waiting", "structuring", "storing", "complete"];
-const STALL_TIMEOUT_MS = 90_000;
+const STALL_TIMEOUT_MS = 180_000;
+const SLOW_STAGES = new Set(["analyze", "questions", "structuring"]);
 
 export default function ReviewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -34,9 +35,14 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
   const lastProgressRef = useRef<string | null>(null);
   const stallTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  // Detect stalled workflows: if progress doesn't change for STALL_TIMEOUT_MS, show error
+  // Detect stalled workflows: if progress doesn't change for STALL_TIMEOUT_MS, show error.
+  // Skip while paused at the clarify hook (status=reviewing) — that's by design, not stuck.
   useEffect(() => {
-    if (!process || process.status === "complete") return;
+    if (!process || process.status === "complete" || process.status === "reviewing") {
+      clearTimeout(stallTimerRef.current);
+      setStalled(false);
+      return;
+    }
     const data = process.structuredData as StructuredDataShape | null;
     const progressKey = data?.progress?.stage ?? null;
 
@@ -49,6 +55,12 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
     stallTimerRef.current = setTimeout(() => setStalled(true), STALL_TIMEOUT_MS);
     return () => clearTimeout(stallTimerRef.current);
   }, [process]);
+
+  useEffect(() => {
+    if (process?.status === "complete") {
+      router.replace(`/process/${id}`);
+    }
+  }, [process?.status, id, router]);
 
   if (isLoading) {
     return (
@@ -65,7 +77,6 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
   }
 
   if (process.status === "complete") {
-    router.replace(`/process/${id}`);
     return null;
   }
 
@@ -144,6 +155,7 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
 
     const stageIndex = progress ? STAGE_ORDER.indexOf(progress.stage) : -1;
     const percent = stageIndex >= 0 ? ((stageIndex + 1) / STAGE_ORDER.length) * 100 : 8;
+    const isSlowStage = progress?.stage ? SLOW_STAGES.has(progress.stage) : false;
     return (
       <div className="max-w-lg mx-auto p-8 space-y-6">
         <div className="text-center">
@@ -155,6 +167,11 @@ export default function ReviewPage({ params }: { params: Promise<{ id: string }>
               ? `Stage: ${progress.stage}`
               : "This usually takes 15-30 seconds"}
           </p>
+          {isSlowStage && (
+            <p className="text-xs text-slate-500 mt-2">
+              Preparing clarification questions — this can take up to a minute.
+            </p>
+          )}
         </div>
         <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
           <div

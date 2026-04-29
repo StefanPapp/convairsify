@@ -1,7 +1,8 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import type { Process } from "@/lib/db/schema";
+import type { Process, Recording } from "@/lib/db/schema";
+import type { AutomationAnalysis } from "@/lib/ai/schemas";
 
 async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, init);
@@ -82,6 +83,51 @@ export function useRestartProcess(processId: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["process", processId] });
     },
+  });
+}
+
+export function useAutomationAnalysis(processId: string) {
+  return useQuery<AutomationAnalysis | null>({
+    queryKey: ["automation-analysis", processId],
+    queryFn: () => fetchJson(`/api/process/${processId}/automation-analysis`),
+    enabled: !!processId,
+  });
+}
+
+export function useRunAutomationAnalysis(processId: string) {
+  const queryClient = useQueryClient();
+  return useMutation<AutomationAnalysis>({
+    mutationFn: () =>
+      fetchJson<AutomationAnalysis>(`/api/process/${processId}/automation-analysis`, {
+        method: "POST",
+      }),
+    onSuccess: (data) => {
+      queryClient.setQueryData(["automation-analysis", processId], data);
+    },
+  });
+}
+
+export type RelatedProcess = {
+  id: string;
+  name: string;
+  description: string | null;
+  similarity: number;
+};
+
+export function useRelatedProcesses(processId: string, { enabled = true }: { enabled?: boolean } = {}) {
+  return useQuery<RelatedProcess[]>({
+    queryKey: ["related", processId],
+    queryFn: () => fetchJson(`/api/process/${processId}/related`),
+    enabled: enabled && !!processId,
+  });
+}
+
+export function useRecording(processId: string, { enabled = true }: { enabled?: boolean } = {}) {
+  return useQuery<Recording>({
+    queryKey: ["recording", processId],
+    queryFn: () => fetchJson(`/api/process/${processId}/recording`),
+    enabled: enabled && !!processId,
+    retry: false,
   });
 }
 

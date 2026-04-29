@@ -6,6 +6,7 @@ import {
   integer,
   timestamp,
   jsonb,
+  vector,
 } from "drizzle-orm/pg-core";
 
 export const processStatusEnum = pgEnum("process_status", [
@@ -25,6 +26,8 @@ export const processes = pgTable("processes", {
   status: processStatusEnum("status").notNull().default("draft"),
   createdBy: text("created_by").notNull(),
   structuredData: jsonb("structured_data"),
+  automationAnalysis: jsonb("automation_analysis"),
+  embedding: vector("embedding", { dimensions: 1536 }),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

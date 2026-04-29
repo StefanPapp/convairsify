@@ -68,7 +68,28 @@ export const processStructuredDataSchema = z.object({
   metadata: processMetadataSchema,
 });
 
+export const automationStepSchema = z.object({
+  step_id: z.string(),
+  step_name: z.string(),
+  candidacy: z.enum(["high", "medium", "low", "none"]),
+  agent_type: z.enum(["llm", "rpa", "deterministic", "hybrid", "none"]),
+  reasoning: z.string(),
+  prerequisites: z.array(z.string()).default([]),
+  risks: z.array(z.string()).default([]),
+});
+
+export const automationAnalysisSchema = z.object({
+  overall: z.object({
+    automatable_step_count: z.number().int().nonnegative(),
+    total_step_count: z.number().int().nonnegative(),
+    summary: z.string(),
+  }),
+  steps: z.array(automationStepSchema),
+});
+
 export type GapAnalysis = z.infer<typeof gapAnalysisSchema>;
 export type ClarificationQuestions = z.infer<typeof clarificationQuestionsSchema>;
 export type ProcessStructuredData = z.infer<typeof processStructuredDataSchema>;
 export type ProcessStep = z.infer<typeof processStepSchema>;
+export type AutomationAnalysis = z.infer<typeof automationAnalysisSchema>;
+export type AutomationStep = z.infer<typeof automationStepSchema>;

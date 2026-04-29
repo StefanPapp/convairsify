@@ -5,6 +5,7 @@ import { analyzeGaps } from "./steps/analyze-gaps";
 import { generateQuestions } from "./steps/generate-questions";
 import { structureProcess } from "./steps/structure-process";
 import { storeProcess } from "./steps/store-process";
+import { embedProcess } from "./steps/embed-process";
 import { getProcess, updateProcess } from "@/lib/db/queries";
 
 type ClarifyPayload = {
@@ -94,6 +95,14 @@ export async function processRecordingWorkflow(
     // Step 5: Store
     await writeProgress(writable, processId, "storing", "Saving structured process...");
     await storeProcess(processId, structuredData, cleanedTranscript, clarificationQa, durationSeconds, runId);
+
+    // Step 6: Embed (for similarity search). Fire-and-forget semantics — failure
+    // here shouldn't fail the whole run since the process is already stored.
+    try {
+      await embedProcess(processId, cleanedTranscript, structuredData);
+    } catch (embedErr) {
+      console.error("[workflow] embedProcess failed (non-fatal):", embedErr);
+    }
 
     return { success: true, processId };
   } catch (error) {

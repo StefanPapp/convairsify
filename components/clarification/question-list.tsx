@@ -95,7 +95,13 @@ export function QuestionList({ questions, onComplete, isSubmitting }: Props) {
                   &ldquo;{answers.get(q.id)}&rdquo;
                 </p>
               )}
-              {isCurrent && <AnswerInput onSubmit={handleAnswer} />}
+              {isCurrent && (
+                <AnswerInput
+                  questionText={q.text}
+                  questionContext={q.context}
+                  onSubmit={handleAnswer}
+                />
+              )}
             </div>
           );
         })}

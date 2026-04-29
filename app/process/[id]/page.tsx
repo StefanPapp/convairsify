@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { useProcess, useRestartProcess } from "@/hooks/use-processes";
 import { StepTimeline } from "@/components/process/step-timeline";
 import { RoleBadges } from "@/components/process/role-badges";
+import { ClarificationsList } from "@/components/process/clarifications-list";
+import { RelatedProcesses } from "@/components/process/related-processes";
+import { AutomationAnalysisCard } from "@/components/process/automation-analysis";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ProcessStructuredData } from "@/lib/ai/schemas";
 
@@ -15,7 +18,8 @@ type StructuredOrProgress = Partial<ProcessStructuredData> & {
 };
 
 const STAGE_ORDER = ["finalize", "analyze", "questions", "waiting", "structuring", "storing", "complete"];
-const STALL_TIMEOUT_MS = 90_000;
+const STALL_TIMEOUT_MS = 180_000;
+const SLOW_STAGES = new Set(["analyze", "questions", "structuring"]);
 
 export default function ProcessViewPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -30,7 +34,11 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
   const progress = raw?.progress;
 
   useEffect(() => {
-    if (!process || process.status === "complete") return;
+    if (!process || process.status === "complete" || process.status === "reviewing") {
+      clearTimeout(stallTimerRef.current);
+      setStalled(false);
+      return;
+    }
     const progressKey = progress?.stage ?? null;
 
     if (progressKey !== lastProgressRef.current) {
@@ -106,6 +114,9 @@ export default function ProcessViewPage({ params }: { params: Promise<{ id: stri
                 <p className="text-slate-300">{data.metadata.end_condition}</p>
               </div>
             )}
+            <AutomationAnalysisCard processId={id} />
+            <ClarificationsList processId={id} />
+            <RelatedProcesses processId={id} />
           </>
         ) : (
           <ProgressView
@@ -181,6 +192,7 @@ function ProgressView({
 
   const stageIndex = progress ? STAGE_ORDER.indexOf(progress.stage) : -1;
   const percent = stageIndex >= 0 ? ((stageIndex + 1) / STAGE_ORDER.length) * 100 : 8;
+  const isSlowStage = progress?.stage ? SLOW_STAGES.has(progress.stage) : false;
   return (
     <div className="py-12 space-y-6">
       <div className="text-center">
@@ -190,6 +202,11 @@ function ProgressView({
         <p className="text-sm text-slate-500 mt-2">
           {progress?.stage ? `Stage: ${progress.stage}` : "Polling for updates..."}
         </p>
+        {isSlowStage && (
+          <p className="text-xs text-slate-500 mt-2">
+            Preparing clarification questions — this can take up to a minute.
+          </p>
+        )}
       </div>
       <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
         <div
